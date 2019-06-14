@@ -9,9 +9,9 @@ function* museumsSagas() {
   ])
 }
 
-export function* museumsRequest({ skip, limit, text }) {
+export function* museumsRequest({ skip, limit, text, last }) {
   try {
-    const { museums } = yield call(Api.getMuseums, { skip, limit, text })
+    const { museums } = yield call(Api.getMuseums, { skip, limit, text, last })
 
     yield put(MuseumsActions.museumsSuccess(museums, museums.length === limit))
   } catch (error) {

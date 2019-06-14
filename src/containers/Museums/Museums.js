@@ -15,7 +15,6 @@ class Museums extends Component {
 
     this.renderItem = this.renderItem.bind(this)
     this.renderFooter = this.renderFooter.bind(this)
-    this.handleLoadMore = this.handleLoadMore.bind(this)
     this.searchMuseums = loDebounce(this.searchMuseums.bind(this), 300)
     this.state = {
       text: ''
@@ -35,7 +34,10 @@ class Museums extends Component {
       <View style={styles.itemContainer}>
         <Image
           style={styles.thumbImage}
-          source={{ uri: item.thumb }}
+          source={
+            item.thumb ? { uri: `https:${item.thumb}` } :
+              { uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png' }
+          }
         />
         <View style={styles.nameContainer}>
           <Text style={styles.nameTxt}>{item.name}</Text>
@@ -48,15 +50,6 @@ class Museums extends Component {
     return this.props.isLoadingMore ?
       <ActivityIndicator size='small' style={{ height: 70 }} /> :
       null
-  }
-
-
-  handleLoadMore() {
-    const { isRequesting, isLoadingMore, hasMore, museumsRequest, museums } = this.props;
-    const { text } = this.state
-    if (isRequesting || isLoadingMore || !hasMore) return
-
-    museumsRequest(museums.length, LIMIT, text);
   }
 
   render() {
@@ -81,12 +74,10 @@ class Museums extends Component {
         </View>
         <FlatList
           style={styles.container}
-          // contentContainerStyle={{ paddingVertical: 20 }}
           data={museums}
           keyExtractor={(item) => item._id}
           renderItem={this.renderItem.bind(this)}
           ListFooterComponent={this.renderFooter}
-          onEndReached={this.handleLoadMore}
           onEndReachedThreshold={0.5}
         />
       </View>
@@ -102,7 +93,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  museumsRequest: (skip, limit, text) => dispatch(MuseumsActions.museumsRequest(skip, limit, text))
+  museumsRequest: (skip, limit, text, last) => dispatch(MuseumsActions.museumsRequest(skip, limit, text, last))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Museums)

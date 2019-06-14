@@ -3,7 +3,7 @@ import Immutable from 'seamless-immutable'
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  museumsRequest: ['skip', 'limit', 'text'],
+  museumsRequest: ['skip', 'limit', 'text', 'last'],
   museumsSuccess: ['museums', 'hasMore'],
   museumsFailure: null,
 })

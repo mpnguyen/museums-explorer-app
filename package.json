@@ -12,6 +12,7 @@
     "querystring": "^0.2.0",
     "react": "16.8.3",
     "react-native": "0.59.9",
+    "react-native-firebase": "^5.4.3",
     "react-native-vector-icons": "^6.5.0",
     "react-redux": "^7.1.0",
     "redux": "^4.0.1",
